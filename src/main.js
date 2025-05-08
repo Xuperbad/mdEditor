@@ -434,13 +434,14 @@ document.addEventListener('DOMContentLoaded', function() {
   // 导入按钮事件处理
   const importButton = document.getElementById('import-md');
   const fileInput = document.getElementById('file-input');
+  const editorElement = document.getElementById('editorjs');
 
   importButton.addEventListener('click', () => {
     fileInput.click();
   });
 
-  fileInput.addEventListener('change', async (event) => {
-    const file = event.target.files[0];
+  // 处理Markdown文件的函数
+  const processMarkdownFile = (file) => {
     if (!file) return;
 
     // 保存文件名，用于导出时使用
@@ -450,7 +451,7 @@ document.addEventListener('DOMContentLoaded', function() {
       : file.name.replace(/\.[^/.]+$/, '') + '.md';
 
     const reader = new FileReader();
-    reader.onload = async (e) => {
+    reader.onload = (e) => {
       const markdownContent = e.target.result;
 
       try {
@@ -628,6 +629,30 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
     reader.readAsText(file);
-    fileInput.value = ''; // 重置文件输入
+  };
+
+  // 文件输入框变化事件
+  fileInput.addEventListener('change', (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      processMarkdownFile(file);
+    }
+    fileInput.value = ''; // 重置文件输入，允许再次选择同一文件
+  });
+
+  // 添加拖放功能
+  editorElement.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+  });
+
+  editorElement.addEventListener('drop', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const file = e.dataTransfer.files[0];
+    if (file) {
+      processMarkdownFile(file);
+    }
   });
 });
