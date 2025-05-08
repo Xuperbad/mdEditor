@@ -184,6 +184,8 @@ const Italic = {
 
 // 等待 DOM 加载完成
 document.addEventListener('DOMContentLoaded', function() {
+  // 用于存储当前文件名
+  let currentFileName = 'document.md';
   // 初始化 Editor.js
   const editor = new EditorJS({
     holder: 'editorjs',
@@ -415,7 +417,8 @@ document.addEventListener('DOMContentLoaded', function() {
       const link = document.createElement('a');
 
       link.href = url;
-      link.download = 'document.md';
+      // 使用保存的文件名，如果没有导入过文件，则使用默认名称
+      link.download = currentFileName || 'document.md';
       document.body.appendChild(link);
       link.click();
 
@@ -439,6 +442,12 @@ document.addEventListener('DOMContentLoaded', function() {
   fileInput.addEventListener('change', async (event) => {
     const file = event.target.files[0];
     if (!file) return;
+
+    // 保存文件名，用于导出时使用
+    // 确保文件扩展名为.md
+    currentFileName = file.name.endsWith('.md')
+      ? file.name
+      : file.name.replace(/\.[^/.]+$/, '') + '.md';
 
     const reader = new FileReader();
     reader.onload = async (e) => {

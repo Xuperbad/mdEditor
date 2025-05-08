@@ -1,5 +1,6 @@
 :root {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  /* 使用浏览器默认字体作为第一优先级 */
+  font-family: inherit, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
   line-height: 1.5;
   font-weight: 400;
   color: #333;
@@ -114,14 +115,26 @@ body {
 .ce-paragraph {
   font-size: 16px;
   line-height: 1.6;
+  font-family: inherit; /* 使用浏览器默认字体 */
 }
 
 .ce-header {
   margin-bottom: 0.7em;
+  font-family: inherit; /* 使用浏览器默认字体 */
 }
 
 /* 隐藏编辑器边框 */
 .codex-editor {
   border: none;
   box-shadow: none;
+  font-family: inherit; /* 使用浏览器默认字体 */
+}
+
+/* 确保所有编辑器元素使用浏览器默认字体 */
+.ce-block,
+.ce-toolbar,
+.ce-popover,
+.ce-inline-toolbar,
+.ce-conversion-toolbar {
+  font-family: inherit;
 }
