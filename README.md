@@ -1,146 +1,74 @@
-# MD Editor
+# MD 编辑器
 
-A lightweight, minimalist Markdown editor built with Editor.js.
+一个基于 Editor.js 构建的轻量级、极简风格的 Markdown 编辑器。
 
-## Online Demo
+## 在线演示
 
-Visit [https://xuperbad.github.io/mdEditor/](https://xuperbad.github.io/mdEditor/) to use the editor online without installation.
+访问 [https://xuperbad.github.io/mdEditor/](https://xuperbad.github.io/mdEditor/)
 
-## Features
+## 主要功能
 
-- 🖋️ Clean, minimalist interface
-- 📝 Import and export Markdown files
-- 📊 Support for tables and delimiters
-- 🖱️ Drag and drop file import
-- 🔄 Exported files keep the same filename as imported files
-- 📱 Responsive design
-- 🌐 Can be deployed to GitHub Pages or other static hosting services
-- 🧩 Block-based editing with Editor.js
-- 📋 Supports common Markdown elements (headers, lists, code blocks, etc.)
+- 📄 导入/导出 Markdown 文件
+- 📂 拖放文件导入
+- 📊 支持表格和分隔符
+- 🔄 导出文件保持与导入文件相同的文件名
+- 🧩 基于 Editor.js 的块编辑功能
 
-## Getting Started
-
-### Prerequisites
-
-- Node.js (v16 or higher recommended)
-- npm (comes with Node.js)
-
-### Installation
-
-1. Clone the repository
-   ```bash
-   git clone https://github.com/xuperbad/mdEditor.git
-   cd mdEditor
-   ```
-
-2. Install dependencies
-   ```bash
-   npm install
-   ```
-
-3. Start the development server
-   ```bash
-   npm run dev
-   ```
-
-4. Open your browser and navigate to `http://localhost:5173`
-
-### Building for Production
+## 开发
 
 ```bash
+# 安装依赖
+npm install
+
+# 启动开发服务器
+npm run dev
+
+# 构建生产版本
 npm run build
 ```
 
-The built files will be in the `dist` directory.
+## 部署到 GitHub Pages
 
-### Preview Production Build Locally
+### 方法一：使用 gh-pages 包（推荐）
 
-```bash
-npm run preview
-```
-
-## Usage
-
-### Importing Markdown
-
-1. Click the "Import" button (↑) in the top-right corner
-2. Select a Markdown (.md) file from your computer
-3. The file will be loaded into the editor
-
-**OR**
-
-- Simply drag and drop a Markdown file directly onto the editor area
-
-### Editing Content
-
-- Use the Editor.js interface to edit your content
-- Click the "+" button to add new blocks
-- Use the toolbar to format text
-- Add tables, delimiters, and other block elements
-
-### Exporting to Markdown
-
-1. Click the "Export" button (↓) in the top-right corner
-2. A Markdown file will be downloaded to your computer
-   - If you previously imported a file, the exported file will have the same name
-   - Otherwise, it will be named "document.md"
-
-## Deployment to GitHub Pages
-
-### Method 1: Using gh-pages package (Recommended)
-
-1. Install gh-pages package (if not already installed)
+1. 安装 gh-pages 包
    ```bash
    npm install gh-pages --save-dev
    ```
 
-2. Add a deploy script to package.json
+2. 在 package.json 中添加部署脚本
    ```json
    "scripts": {
      "deploy": "gh-pages -d dist"
    }
    ```
 
-3. Configure the base path in vite.config.js
+3. 在 vite.config.js 中配置基本路径
    ```javascript
-   // vite.config.js
    export default {
-     base: '/mdEditor/', // Replace with your repository name
-     // ...other config
+     base: '/mdEditor/', // 替换为你的仓库名
    }
    ```
 
-4. Build the project
+4. 构建并部署
    ```bash
    npm run build
-   ```
-
-5. Deploy to GitHub Pages
-   ```bash
    npm run deploy
    ```
 
-6. Enable GitHub Pages in your repository settings
-   - Go to your GitHub repository page
-   - Click "Settings" > "Pages"
-   - Under "Build and deployment", select "Deploy from a branch"
-   - Select "gh-pages" branch and "/(root)" folder
-   - Click "Save"
+5. 在仓库设置中启用 GitHub Pages
+   - 选择 "gh-pages" 分支和 "/(root)" 文件夹
 
-7. Wait for deployment to complete (usually takes a few minutes)
-   - Once complete, your site will be available at `https://username.github.io/repository-name/`
+### 方法二：使用 GitHub Actions
 
-### Method 2: Using GitHub Actions
-
-1. Create a `.github/workflows` directory in your repository
-2. Create a `deploy.yml` file in that directory with the following content:
+1. 创建 `.github/workflows/deploy.yml` 文件，内容如下：
 
 ```yaml
 name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [ main ]  # or your default branch name
+    branches: [ main ]
 
 jobs:
   build-and-deploy:
@@ -148,42 +76,30 @@ jobs:
     permissions:
       contents: write
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
           node-version: '18'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build
-        run: npm run build
-
-      - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@v4
+      - run: npm ci
+      - run: npm run build
+      - uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: dist
           branch: gh-pages
 ```
 
-3. Push this file to your repository
-4. GitHub Actions will automatically build and deploy your project
+### 注意事项
 
-### Important Notes
+- GitHub Pages URL 区分大小写，确保 `vite.config.js` 中的 `base` 路径与仓库名完全匹配
+- 私有仓库的 GitHub Pages 站点仍然可以公开访问
+- 更新代码后需要重新构建和部署
 
-- GitHub Pages URLs are case-sensitive, ensure the `base` path in `vite.config.js` exactly matches your repository name (including case)
-- If your repository is private, the deployed GitHub Pages site will still be publicly accessible
-- After updating your code, you need to rebuild and redeploy to update the version on GitHub Pages
+## 技术栈
 
-## Built With
+- [Vite](https://vitejs.dev/) - 前端构建工具
+- [Editor.js](https://editorjs.io/) - 块式编辑器
+- [marked](https://marked.js.org/) - Markdown 解析器
 
-- [Vite](https://vitejs.dev/) - Frontend build tool
-- [Editor.js](https://editorjs.io/) - Block-style editor
-- [marked](https://marked.js.org/) - Markdown parser and compiler
+## 许可证
 
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
+本项目采用 MIT 许可证 - 详情请参阅 LICENSE 文件。

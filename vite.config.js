@@ -3,7 +3,7 @@ export default {
   // 设置base路径为您的仓库名称
   // 如果部署到GitHub Pages的子目录，使用'/repo-name/'
   // 如果部署到根域名，使用'/'
-  base: '/mdeditor/',
+  base: '/mdEditor/',
 
   build: {
     // 生成sourcemap以便于调试
